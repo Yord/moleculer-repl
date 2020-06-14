@@ -2,7 +2,7 @@ const { subcommand, stringPos, string } = require("shargs-opts");
 const kleur 			= require("kleur");
 
 const subCommandOpt = subcommand([
-    stringPos('serviceName', { desc: "Name of the service to destroy", descArg: 'serviceName'} ),
+    stringPos('serviceName', { desc: "Name of the service to destroy", descArg: 'serviceName', required: true} ),
     stringPos('version', { desc: "Name of the service to destroy", descArg: 'version'} )
 ]);
 
@@ -19,7 +19,7 @@ function call(broker, args) {
 
     const p = broker.destroyService(service);
     console.log(kleur.yellow(`>> Destroying '${serviceName}'...`));
-    p.then(res => {
+    return p.then(res => {
         console.log(kleur.green(">> Destroyed successfully!"));
     }).catch(err => {
         console.error(kleur.red(">> ERROR:", err.message));

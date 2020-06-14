@@ -1,4 +1,5 @@
 const { ServiceBroker } = require('moleculer')
+const GreeterSchema = require('./greeter.service')
 
 const broker = new ServiceBroker({
 	replLocation: '../../../index-shargs',
@@ -6,24 +7,7 @@ const broker = new ServiceBroker({
     logLevel: 'debug'
 })
 
-broker.createService({
-	name: "greeter",
-	
-	version: 2,
-	
-	actions: {
-		hello () { return 'Hello' },
-
-		welcome: {
-			rest: "/welcome",
-			params: { name: "string" },
-			async handler(ctx) {
-				return `Welcome, ${ctx.params.name}`;
-			}
-		}
-	},
-	events: {},
-})
+broker.createService(GreeterSchema)
 
 broker.start()
     .then(() => broker.repl())
