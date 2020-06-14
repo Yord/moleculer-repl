@@ -33,7 +33,7 @@ const {lexer, parser} = require('./parser')
 function REPL(broker, opts) {
 
 	// Create commands instance
-	const commands = command('mol', [], {desc: 'Welcome to the shargs REPL. Type "help" to see all available commands.'})
+	const commands = command('mol', [], { desc: undefined })
 	// Load the commands
 	const subCommands = loadCommands(commands, broker)
 	// Set the commands

@@ -1,8 +1,8 @@
 const { ServiceBroker } = require('moleculer')
 
 const broker = new ServiceBroker({
-	// replLocation: '../../../index-shargs',
-	replLocation: '../../../index-vorpal',
+	replLocation: '../../../index-shargs',
+	// replLocation: '../../../index-vorpal',
     logLevel: 'debug'
 })
 
