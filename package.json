@@ -29,7 +29,7 @@
     "jest": "^25.3.0",
     "jest-cli": "^25.3.0",
     "lolex": "^5.1.1",
-    "moleculer": "^0.14.5",
+    "moleculer": "git+https://github.com/AndreMaz/moleculer.git#repl_loc",
     "nodemon": "^2.0.3",
     "npm-check": "^5.9.2"
   },
