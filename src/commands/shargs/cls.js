@@ -5,17 +5,16 @@ const subCommandOpt = subcommand([
 ]);
 
 function call(broker, args) {
-	const { text } = args;
-	return broker.logger.info({ text });
+	process.stdout.write("\x1Bc");
 }
 
 module.exports = function (commands, broker) {
 	return subCommandOpt(
-		"echo", // Name
-		["echo"], // Alias
+		"cls", // Name
+		["cls"], // Alias
 		{
 			action: (args) => call(broker, args), // Handler
-			desc: "Echos a string.", // Description
+			desc: "Clear console.", // Description
 		}
 	);
 };

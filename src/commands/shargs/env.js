@@ -1,21 +1,21 @@
 const { subcommand, stringPos } = require("shargs-opts");
+const util 	= require("util");
 
 const subCommandOpt = subcommand([
 	stringPos("text", { desc: "This text is echoed.", descArg: "TEXT" }),
 ]);
 
 function call(broker, args) {
-	const { text } = args;
-	return broker.logger.info({ text });
+	console.log(util.inspect(process.env, { showHidden: false, depth: 4, colors: true }));
 }
 
 module.exports = function (commands, broker) {
 	return subCommandOpt(
-		"echo", // Name
-		["echo"], // Alias
+		"env", // Name
+		["env"], // Alias
 		{
 			action: (args) => call(broker, args), // Handler
-			desc: "Echos a string.", // Description
+			desc: "List of environment variables.", // Description
 		}
 	);
 };

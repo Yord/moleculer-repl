@@ -1,6 +1,6 @@
 const { subcommand, string, stringPos } = require("shargs-opts");
 
-const caseCmd = subcommand([
+const subCommandOpt = subcommand([
 	stringPos("text", {
 		desc: "This text is transformed into upper or lower case.",
 	}),
@@ -26,7 +26,7 @@ async function call(broker, { text = "", mode }) {
 }
 
 module.exports = function (commands, broker) {
-	return caseCmd("case", ["case"], {
+	return subCommandOpt("case", ["case"], {
 		action: (args) => call(broker, args),
 		desc:
 			"Transforms its argument into upper or lower case depending on the --mode.",

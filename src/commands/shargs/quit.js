@@ -1,6 +1,6 @@
 const { subcommand, stringPos } = require("shargs-opts");
 
-const echoCmd = subcommand([
+const subCommandOpt = subcommand([
 	stringPos("text", { desc: "This text is echoed.", descArg: "TEXT" }),
 ]);
 
@@ -10,7 +10,7 @@ async function call(broker, args) {
 }
 
 module.exports = function (commands, broker) {
-	return echoCmd(
+	return subCommandOpt(
 		"quit", // Name
 		["quit", "q", "exit"], // Alias
 		{
