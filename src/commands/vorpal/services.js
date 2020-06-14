@@ -3,7 +3,7 @@
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
 const { table, getBorderCharacters } 	= require("table");
-const { match } 		= require("../utils");
+const { match } 		= require("../../utils");
 
 module.exports = function(vorpal, broker) {
 	// List services

@@ -4,7 +4,7 @@ const kleur 			= require("kleur");
 const humanize 			= require("tiny-human-time").short;
 const ora 				= require("ora");
 const _ 				= require("lodash");
-const { formatNumber } 	= require("../utils");
+const { formatNumber } 	= require("../../utils");
 
 function createSpinner(text) {
 	return ora({

@@ -30,6 +30,13 @@
 			"runtimeArgs": [
                 "--nolazy"
             ]
-		}
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Repl Dev",
+			"program": "${workspaceRoot}/dev/new-repl.js",
+			"cwd": "${workspaceRoot}"
+		},
 	]
 }

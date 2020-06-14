@@ -16,10 +16,11 @@ const kleur 			= require("kleur");
 const ora 				= require("ora");
 const clui 				= require("clui");
 
-const registerCommands 	= require("./commands");
+// const registerCommands 	= require("./commands");
 
+const { command, variadic } = require('shargs-opts')
 const { repl }          = require('shargs-repl')
-const {commands}      = require('./commands/commands')
+const loadCommands      = require('./commands/shargs')
 const {lexer, parser} = require('./parser')
 
 /**
@@ -30,6 +31,14 @@ const {lexer, parser} = require('./parser')
  */
 /* istanbul ignore next */
 function REPL(broker, opts) {
+
+	// Create commands instance
+	const commands = command('mol', [], {desc: 'Welcome to the shargs REPL. Type "help" to see all available commands.'})
+	// Load the commands
+	const subCommands = loadCommands(commands, broker)
+	// Set the commands
+	commands.opts = subCommands
+
 	repl(lexer, parser, commands, {only: true})
 }
 

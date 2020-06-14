@@ -1,7 +1,7 @@
 "use strict";
 
 const kleur 			= require("kleur");
-const { convertArgs } 	= require("../utils");
+const { convertArgs } 	= require("../../utils");
 
 module.exports = function(vorpal, broker) {
 	// Register broker.broadcast

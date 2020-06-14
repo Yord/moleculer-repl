@@ -2,7 +2,7 @@
 
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
-const { convertArgs } 	= require("../utils");
+const { convertArgs } 	= require("../../utils");
 
 module.exports = function(vorpal, broker) {
 	// Register broker.emit

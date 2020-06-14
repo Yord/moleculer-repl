@@ -5,7 +5,7 @@ const fs 				= require("fs");
 const path				= require("path");
 const _ 				= require("lodash");
 const util 				= require("util");
-const { convertArgs } 	= require("../utils");
+const { convertArgs } 	= require("../../utils");
 const humanize 			= require("tiny-human-time").short;
 const isStream			= require("is-stream");
 

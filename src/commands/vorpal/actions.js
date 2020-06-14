@@ -4,7 +4,7 @@ const kleur 							= require("kleur");
 const _ 								= require("lodash");
 const { table, getBorderCharacters } 	= require("table");
 
-const { match, CIRCUIT_CLOSE, CIRCUIT_HALF_OPEN, CIRCUIT_OPEN } = require("../utils");
+const { match, CIRCUIT_CLOSE, CIRCUIT_HALF_OPEN, CIRCUIT_OPEN } = require("../../utils");
 
 module.exports = function(vorpal, broker) {
 	// List actions
