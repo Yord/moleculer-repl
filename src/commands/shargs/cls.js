@@ -1,8 +1,6 @@
 const { subcommand, stringPos } = require("shargs-opts");
 
-const subCommandOpt = subcommand([
-	stringPos("text", { desc: "This text is echoed.", descArg: "TEXT" }),
-]);
+const subCommandOpt = subcommand([]);
 
 function call(broker, args) {
 	process.stdout.write("\x1Bc");

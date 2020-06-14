@@ -8,6 +8,9 @@ const broker = new ServiceBroker({
 
 broker.createService({
 	name: "greeter",
+	
+	version: 2,
+	
 	actions: {
 		hello () { return 'Hello' },
 

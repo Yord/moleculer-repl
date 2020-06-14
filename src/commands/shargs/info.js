@@ -6,9 +6,7 @@ const clui 				= require("clui");
 const pretty 			= require("pretty-bytes");
 const os 				= require("os");
 
-const subCommandOpt = subcommand([
-	stringPos("text", { desc: "This text is echoed.", descArg: "TEXT" }),
-]);
+const subCommandOpt = subcommand([]);
 
 function call(broker, args) {
 	const printHeader = (name) => {

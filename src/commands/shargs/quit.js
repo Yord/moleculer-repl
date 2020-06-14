@@ -1,8 +1,6 @@
 const { subcommand, stringPos } = require("shargs-opts");
 
-const subCommandOpt = subcommand([
-	stringPos("text", { desc: "This text is echoed.", descArg: "TEXT" }),
-]);
+const subCommandOpt = subcommand([]);
 
 async function call(broker, args) {
 	await broker.stop()

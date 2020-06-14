@@ -22,7 +22,6 @@ async function call(broker, { text = "", mode }) {
 		}
 	}
 	broker.logger.info(text);
-	// return
 }
 
 module.exports = function (commands, broker) {

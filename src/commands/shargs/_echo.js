@@ -6,7 +6,7 @@ const subCommandOpt = subcommand([
 
 function call(broker, args) {
 	const { text } = args;
-	return broker.logger.info({ text });
+	broker.logger.info({ text });
 }
 
 module.exports = function (commands, broker) {
