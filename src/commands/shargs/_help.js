@@ -18,7 +18,7 @@ function call(commands, broker, command) {
 	const subDocs = usage([synopsis, space, optsDef, space, desc]);
 
 	const style = {
-		line: [{ width: 80 }],
+		line: [{ width: 120 }],
 		cols: [{ width: 25, padEnd: 2 }, { width: 53 }],
 	};
 
