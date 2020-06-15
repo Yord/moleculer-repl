@@ -1,6 +1,7 @@
-const {lexerSync, parserSync} = require('shargs')
+const {fromArgs: fromArgsDefault, lexerSync, parserSync} = require('shargs')
 const {restrictToOnly} = require('shargs-parser')
 const {strToArgv} = require('./strToArgv')
+const {groupOptions} = require('./groupOptions')
 
 const lexer = lexerSync({
   toArgv,
@@ -9,7 +10,7 @@ const lexer = lexerSync({
 
 const parser = cmd => rawCommand => parserSync({
   toArgv,
-  opts: [restrictToOnly],
+  opts: [restrictToOnly, groupOptions],
   fromArgs: fromArgs(rawCommand)
 })(cmd)(rawCommand)
 
@@ -28,15 +29,15 @@ function toArgv (str) {
 function fromArgs (rawCommandNewline) {
   const rawCommand = rawCommandNewline.replace('\n', '')
 
-  const addRawCommand = cmd => (
+  const addRawCommand = (cmd = {}) => (
     Object
     .entries(cmd)
     .map(([key, obj]) => [key, {...obj, rawCommand}])
     .reduce((obj, [key, val]) => ({...obj, [key]: val}), {})
   )
 
-  return ({errs, args}) => ({
-    errs,
-    args: typeof args[1] === 'undefined' ? args[0] : {...addRawCommand(args[1]), _: args[0]._}
-  })
+  return ({errs, args: [opts, cmd, ...rest]}) => {
+    const {errs: errs2, args: {...args2}} = fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
+    return {errs: errs2, args: {...args2, rawCommand}}
+  }
 }
