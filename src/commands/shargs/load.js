@@ -4,7 +4,7 @@ const fs 				= require("fs");
 const path 				= require("path");
 
 const subCommandOpt = subcommand([
-    stringPos('servicePath', { desc: "Path to the service.", descArg: 'servicePath'} ),
+    stringPos('servicePath', { desc: "Path to the service file.", descArg: 'servicePath'} ),
 ]);
 
 function call(broker, args) {
