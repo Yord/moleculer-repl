@@ -7,11 +7,11 @@ const lexer = lexerSync({
   opts: [restrictToOnly]
 })
 
-const parser = parserSync({
+const parser = cmd => rawCommand => parserSync({
   toArgv,
   opts: [restrictToOnly],
-  fromArgs
-})
+  fromArgs: fromArgs(rawCommand)
+})(cmd)(rawCommand)
 
 module.exports = {
   lexer,
@@ -25,9 +25,18 @@ function toArgv (str) {
   }
 }
 
-function fromArgs ({errs, args}) {
-  return {
+function fromArgs (rawCommandNewline) {
+  const rawCommand = rawCommandNewline.replace('\n', '')
+
+  const addRawCommand = cmd => (
+    Object
+    .entries(cmd)
+    .map(([key, obj]) => [key, {...obj, rawCommand}])
+    .reduce((obj, [key, val]) => ({...obj, [key]: val}), {})
+  )
+
+  return ({errs, args}) => ({
     errs,
-    args: typeof args[1] === 'undefined' ? args[0] : {...args[1], _: args[0]._}
-  }
+    args: typeof args[1] === 'undefined' ? args[0] : {...addRawCommand(args[1]), _: args[0]._}
+  })
 }
