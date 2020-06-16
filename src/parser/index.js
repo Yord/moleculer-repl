@@ -1,6 +1,7 @@
 const {fromArgs: fromArgsDefault, lexerSync, parserSync} = require('shargs')
 const {restrictToOnly} = require('shargs-parser')
 const {strToArgv} = require('./strToArgv')
+const {bestGuess} = require('./bestGuess')
 const {groupOptions} = require('./groupOptions')
 
 const lexer = lexerSync({
@@ -10,7 +11,7 @@ const lexer = lexerSync({
 
 const parser = cmd => rawCommand => parserSync({
   toArgv,
-  opts: [restrictToOnly, groupOptions],
+  opts: [restrictToOnly, bestGuess, groupOptions],
   fromArgs: fromArgs(rawCommand)
 })(cmd)(rawCommand)
 
