@@ -3,6 +3,7 @@ const {flagsAsBools, restrictToOnly} = require('shargs-parser')
 const {bestGuess} = require('./bestGuess')
 const {groupOptions} = require('./groupOptions')
 const {nestKeys} = require('./nestKeys')
+const {removeRest} = require('./removeRest')
 const {strToArgv} = require('./strToArgv')
 
 const lexer = lexerSync({
@@ -40,7 +41,13 @@ function fromArgs (rawCommandNewline) {
   )
 
   return ({errs, args: [opts, cmd, ...rest]}) => {
-    const {errs: errs2, args: {...args2}} = fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
-    return {errs: errs2, args: {...args2, rawCommand}}
+    const res = fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
+
+    const {errs: errs2, args: args2} = removeRest(res)
+
+    return {
+      errs: errs2,
+      args: {...args2, rawCommand}
+    }
   }
 }
