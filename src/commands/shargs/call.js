@@ -1,4 +1,4 @@
-const { subcommand, stringPos, string } = require("shargs-opts");
+const { subcommand, stringPos, string, variadicPos } = require("shargs-opts");
 const kleur 			= require("kleur");
 const fs 				= require("fs");
 const path				= require("path");
@@ -10,6 +10,7 @@ const isStream			= require("is-stream");
 
 const subCommandOpt = subcommand([
     stringPos('actionName', { desc: "Action name (e.g., greeter.hello)", descArg: 'actionName', required: true} ),
+    variadicPos('customOptions', {bestGuess: true}),
     stringPos('jsonParams', { desc: `JSON Parameters (e.g. '{"a": 5}' )`, descArg: 'jsonParams'} ),
     stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
     string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
