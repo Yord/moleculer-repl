@@ -32,20 +32,18 @@ function call(broker, opt, args, errs) {
 		}
 	
 		const usage = help(opt)(style)
-	
-		setTimeout(() => {
-			if (args.options.help) {
-				console.log(`\n${usage}`)
-				resolve(42)
-			} else if (errs.length > 0) {
-				const errStr = errs.map(err => err.msg).join('\n')
-				console.log(`\n  ${errStr}\n\n${usage}`)
-				resolve(42)
-			} else {
-				console.log(args)
-				resolve(42)
-			}
-		}, 1000)
+
+		if (args.options.help) {
+			console.log(`\n${usage}`)
+			resolve()
+		} else if (errs.length > 0) {
+			const errStr = errs.map(err => err.msg).join('\n')
+			console.log(`\n  ${errStr}\n\n${usage}`)
+			resolve()
+		} else {
+			console.log(args)
+			resolve()
+		}
 	})
 }
 
