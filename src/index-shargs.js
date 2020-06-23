@@ -39,7 +39,7 @@ function REPL(broker, opts) {
 	// Set the commands
 	commands.opts = subCommands
 
-	replSync(lexer, parser, commands, {only: true})
+	repl(lexer, parser, commands, {only: true})
 }
 
 module.exports = REPL;
