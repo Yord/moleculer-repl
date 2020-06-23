@@ -19,7 +19,7 @@ const clui 				= require("clui");
 // const registerCommands 	= require("./commands");
 
 const { command, variadic } = require('shargs-opts')
-const { repl }          = require('shargs-repl')
+const { repl, replSync }          = require('shargs-repl')
 const loadCommands      = require('./commands/shargs')
 const {lexer, parser} = require('./parser')
 

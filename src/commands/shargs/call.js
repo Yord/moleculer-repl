@@ -25,21 +25,26 @@ const subCommandOpt = broker => subcommand([
 ]);
 
 function call(broker, opt, args, errs) {
-	const style = {
-		line: [{ padStart: 2, width: 78 }],
-		cols: [{ padStart: 4, width: 20 }, { width: 56 }]
-	}
+	return new Promise(resolve => {
+		const style = {
+			line: [{ padStart: 2, width: 78 }],
+			cols: [{ padStart: 4, width: 20 }, { width: 56 }]
+		}
+	
+		const usage = help(opt)(style)
 
-	const usage = help(opt)(style)
-
-	if (args.options.help) {
-		console.log(`\n${usage}`)
-	} else if (errs.length > 0) {
-		const errStr = errs.map(err => err.msg).join('\n')
-		console.log(`\n  ${errStr}\n\n${usage}`)
-	} else {
-		console.log(args)
-	}
+		if (args.options.help) {
+			console.log(`\n${usage}`)
+			resolve()
+		} else if (errs.length > 0) {
+			const errStr = errs.map(err => err.msg).join('\n')
+			console.log(`\n  ${errStr}\n\n${usage}`)
+			resolve()
+		} else {
+			console.log(args)
+			resolve()
+		}
+	})
 }
 
 module.exports = function (commands, broker) {
