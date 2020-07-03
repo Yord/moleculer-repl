@@ -18,6 +18,13 @@ const help = optsFilter(opt => opt.key !== 'customOptions')(
   ])
 )
 
+const style = {
+  line: [{ padStart: 2, width: 78 }],
+  cols: [{ padStart: 4, width: 20 }, { width: 56 }]
+}
+
+const commandUsage = (opt) => help(opt)(style)
+
 module.exports = {
-  help
+  commandUsage
 }
