@@ -25,6 +25,22 @@ const style = {
 
 const commandUsage = (opt) => help(opt)(style)
 
+function wrapper(broker, cmd, args, errs, handler) {
+  	// Check for errs and show the command usage
+	if (errs.length > 0) {
+		const errStr = errs.map(err => err.msg).join('\n')
+		console.log(`\n  ${errStr}\n\n${commandUsage(cmd)}`)
+		return
+	}
+
+	// Show command usage details
+	if (args.options.help)
+		return console.log(`\n${commandUsage(cmd)}`)
+
+  return handler(broker, cmd, args, errs)
+}
+
 module.exports = {
-  commandUsage
+  commandUsage,
+  wrapper
 }

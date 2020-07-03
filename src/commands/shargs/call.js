@@ -7,7 +7,7 @@ const { convertArgs } 	= require("../../utils");
 const humanize 			= require("tiny-human-time").short;
 const isStream			= require("is-stream");
 const { flag, subcommand, stringPos, string, variadicPos } = require("shargs-opts");
-const { commandUsage } = require("../../usage/help")
+const { wrapper } = require("../../usage/help")
 
 const subCommandOpt = broker => subcommand([
 		stringPos('actionName', {
@@ -25,19 +25,6 @@ const subCommandOpt = broker => subcommand([
 ]);
 
 async function call(broker, cmd, args, errs) {
-	// Check for errs and show the command usage
-	if (errs.length > 0) {
-		const errStr = errs.map(err => err.msg).join('\n')
-		console.log(`\n  ${errStr}\n\n${commandUsage(cmd)}`)
-		return
-	}
-
-	// Show command usage details
-	if (args.options.help)
-		return console.log(`\n${commandUsage(cmd)}`)
-
-	
-	// Do normal stuff
 	console.log(args)
 }
 
@@ -50,7 +37,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => call(broker, cmd, args, errs) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, call) // Handler
 
 	return { ...cmd, action }
 };

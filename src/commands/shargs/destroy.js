@@ -1,12 +1,26 @@
-const { subcommand, stringPos, string } = require("shargs-opts");
+const { subcommand, stringPos, flag } = require("shargs-opts");
+const { commandUsage } = require("../../usage/help")
 const kleur 			= require("kleur");
 
 const subCommandOpt = subcommand([
-    stringPos('serviceName', { desc: "Name of the service to destroy", descArg: 'serviceName', required: true} ),
-    stringPos('version', { desc: "Name of the service to destroy", descArg: 'version'} )
+    stringPos('serviceName', { desc: "Name of the service to destroy", descArg: 'serviceName', required: true } ),
+    stringPos('version', { desc: "Name of the service to destroy", descArg: 'version'} ),
+    flag("help", ["--help"], { desc: "Output usage information" })
 ]);
 
-function call(broker, args) {
+async function call(broker, cmd, args, errs) {
+    // Check for errs and show the command usage
+	if (errs.length > 0) {
+		const errStr = errs.map(err => err.msg).join('\n')
+		console.log(`\n  ${errStr}\n\n${commandUsage(cmd)}`)
+		return
+	}
+
+    // Show command usage details
+	if (args.options.help) {
+        return console.log(`\n${commandUsage(cmd)}`)
+    }
+
     const serviceName = args.serviceName;
     const version = args.version;
 
@@ -19,21 +33,26 @@ function call(broker, args) {
 
     const p = broker.destroyService(service);
     console.log(kleur.yellow(`>> Destroying '${serviceName}'...`));
-    return p.then(res => {
+
+    try {
+        await p
         console.log(kleur.green(">> Destroyed successfully!"));
-    }).catch(err => {
-        console.error(kleur.red(">> ERROR:", err.message));
-        console.error(kleur.red(err.stack));
-    })
+    } catch (error) {
+        console.error(kleur.red(">> ERROR:", error.message));
+        console.error(kleur.red(error.stack));
+    }
 }
 
 module.exports = function (commands, broker) {
-	return subCommandOpt(
+    const cmd = subCommandOpt(
 		"destroy", // Name
 		["destroy"], // Alias
 		{
-			action: (args) => call(broker, args), // Handler
 			desc: "Destroy a local service.", // Description
 		}
 	);
+
+	const action = (args, errs) => call(broker, cmd, args, errs) // Handler
+
+	return { ...cmd, action }
 };

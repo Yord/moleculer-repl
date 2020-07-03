@@ -2,17 +2,20 @@ const { subcommand, stringPos } = require("shargs-opts");
 
 const subCommandOpt = subcommand([]);
 
-function call(broker, args) {
+function call(broker, cmd, args, errs) {
 	process.stdout.write("\x1Bc");
 }
 
 module.exports = function (commands, broker) {
-	return subCommandOpt(
+	const cmd = subCommandOpt(
 		"cls", // Name
 		["cls"], // Alias
 		{
-			action: (args) => call(broker, args), // Handler
 			desc: "Clear console.", // Description
 		}
 	);
+
+	const action = (args, errs) => call(broker, cmd, args, errs) // Handler
+
+	return { ...cmd, action }
 };
