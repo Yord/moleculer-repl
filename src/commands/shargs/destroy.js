@@ -1,5 +1,5 @@
 const { subcommand, stringPos, flag } = require("shargs-opts");
-const { commandUsage } = require("../../usage/help")
+const { wrapper } = require("../../usage/help")
 const kleur 			= require("kleur");
 
 const subCommandOpt = subcommand([
@@ -8,19 +8,7 @@ const subCommandOpt = subcommand([
     flag("help", ["--help"], { desc: "Output usage information" })
 ]);
 
-async function call(broker, cmd, args, errs) {
-    // Check for errs and show the command usage
-	if (errs.length > 0) {
-		const errStr = errs.map(err => err.msg).join('\n')
-		console.log(`\n  ${errStr}\n\n${commandUsage(cmd)}`)
-		return
-	}
-
-    // Show command usage details
-	if (args.options.help) {
-        return console.log(`\n${commandUsage(cmd)}`)
-    }
-
+async function handler(broker, cmd, args, errs) {
     const serviceName = args.serviceName;
     const version = args.version;
 
@@ -52,7 +40,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => call(broker, cmd, args, errs) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
 
 	return { ...cmd, action }
 };

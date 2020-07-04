@@ -18,7 +18,7 @@ const subCommandOpt = broker => subcommand([
 		variadicPos('customOptions', { bestGuess: true }),
 		stringPos('jsonParams', { desc: `JSON Parameters (e.g. '{"a": 5}' )`, descArg: 'jsonParams'} ),
 		stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
-	    flag("help", ["--help"], { desc: "output usage information" }),
+	    flag("help", ["--help"], { desc: "Output usage information" }),
 		string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
 		string("stream", ["--stream"], { desc: "Save response to file.", descArg: 'filename' }),
 		string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),

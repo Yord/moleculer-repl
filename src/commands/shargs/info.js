@@ -1,14 +1,14 @@
 const { subcommand, stringPos } = require("shargs-opts");
+const { wrapper } = require('../../usage/help')
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
-const util 				= require("util");
 const clui 				= require("clui");
 const pretty 			= require("pretty-bytes");
 const os 				= require("os");
 
 const subCommandOpt = subcommand([]);
 
-function call(broker, args) {
+function handler(broker, cmd, args, errs) {
 	const printHeader = (name) => {
         const title = "  " + name + "  ";
         const lines = "=".repeat(title.length);
@@ -131,12 +131,16 @@ function call(broker, args) {
 }
 
 module.exports = function (commands, broker) {
-	return subCommandOpt(
+	const cmd = subCommandOpt(
 		"info", // Name
 		["info"], // Alias
 		{
-			action: (args) => call(broker, args), // Handler
 			desc: "Information about broker.", // Description
 		}
 	);
+
+	// Register the handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler);
+
+	return { ...cmd, action };
 };

@@ -1,9 +1,10 @@
 const { subcommand } = require("shargs-opts");
+const { wrapper } = require('../../usage/help')
 const util 	= require("util");
 
 const subCommandOpt = subcommand([]);
 
-function call(broker, cmd, args, errs) {
+function handler(broker, cmd, args, errs) {
 	console.log(util.inspect(process.env, { showHidden: false, depth: 4, colors: true }));
 }
 
@@ -15,8 +16,9 @@ module.exports = function (commands, broker) {
 			desc: "List of environment variables.", // Description
 		}
 	);
-
-	const action = (args, errs) => call(broker, cmd, args, errs) // Handler
-
+	
+	// Register the handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler)
+	
 	return { ...cmd, action }
 };
