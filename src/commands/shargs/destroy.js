@@ -1,9 +1,20 @@
 const { subcommand, stringPos, flag } = require("shargs-opts");
 const { wrapper } = require("../../usage/help")
 const kleur 			= require("kleur");
+const _ 				= require("lodash");
 
-const subCommandOpt = subcommand([
-    stringPos('serviceName', { desc: "Name of the service to destroy", descArg: 'serviceName', required: true } ),
+const subCommandOpt = broker => subcommand([
+    stringPos('serviceName', {
+        desc: "Name of the service to destroy",
+        required: true,
+        only: _.uniq(_.compact(broker.registry.getServiceList( {
+                onlyLocal: true,
+                onlyAvailable: true,
+                skipInternal: true,
+                withActions: true,
+                withEvents: true
+        }).map(service => service.fullName)))
+    }),
     stringPos('version', { desc: "Name of the service to destroy", descArg: 'version'} ),
     flag("help", ["--help"], { desc: "Output usage information" })
 ]);
@@ -32,7 +43,7 @@ async function handler(broker, cmd, args, errs) {
 }
 
 module.exports = function (commands, broker) {
-    const cmd = subCommandOpt(
+    const cmd = subCommandOpt(broker)(
 		"destroy", // Name
 		["destroy"], // Alias
 		{

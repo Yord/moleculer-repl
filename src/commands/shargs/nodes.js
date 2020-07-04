@@ -18,7 +18,7 @@ const subCommandOpt = subcommand([
         string("save", ["--save"], { desc: "Save service registry to a JSON file.", descArg: 'filename' }),
 ]);
 
-function call(broker, cmd, args, errs) {
+function handler(broker, cmd, args, errs) {
     const nodes = broker.registry.getNodeList({ onlyAvailable: false, withServices: true });
 
     if (args.options.save) {
@@ -121,7 +121,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, call) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
 
 	return { ...cmd, action }
 };

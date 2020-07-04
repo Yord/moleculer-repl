@@ -18,7 +18,7 @@ function labelsToStr(labels) {
 	return kleur.gray("{") + keys.map(key => `${kleur.gray(key)}: ${kleur.magenta("" + labels[key])}`).join(", ") + kleur.gray("}");
 }
 
-function call(broker, cmd, args, errs) {
+function handler(broker, cmd, args, errs) {
     if (!broker.isMetricsEnabled()) {
         console.error(kleur.red().bold("Metrics feature is disabled."));
         return
@@ -91,7 +91,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, call) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
 
 	return { ...cmd, action }
 };

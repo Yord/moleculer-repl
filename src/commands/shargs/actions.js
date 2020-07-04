@@ -16,7 +16,7 @@ const subCommandOpt = subcommand([
         flag("local", ["-l", "--local"], { desc: "Only local actions.", descArg: 'local' }),
 ]);
 
-function call(broker, cmd, args, errs) {
+function handler(broker, cmd, args, errs) {
     const actions = broker.registry.getActionList({ onlyLocal: args.options.local, onlyAvailable: !args.options.all, skipInternal: args.options.skipinternal, withEndpoints: args.options.details });
 
     const data = [
@@ -114,7 +114,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, call) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
 
 	return { ...cmd, action }
 };
