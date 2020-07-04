@@ -1,4 +1,4 @@
-const { subcommand, stringPos } = require("shargs-opts");
+const { subcommand, flag } = require("shargs-opts");
 const { wrapper } = require('../../usage/help')
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
@@ -6,7 +6,9 @@ const clui 				= require("clui");
 const pretty 			= require("pretty-bytes");
 const os 				= require("os");
 
-const subCommandOpt = subcommand([]);
+const subCommandOpt = subcommand([
+    flag("help", ["--help"], { desc: "Output usage information" }),
+]);
 
 function handler(broker, cmd, args, errs) {
 	const printHeader = (name) => {

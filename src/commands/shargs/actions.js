@@ -9,10 +9,11 @@ const { wrapper } = require("../../usage/help")
 
 const subCommandOpt = subcommand([
 	    flag("help", ["--help"], { desc: "Output usage information" }),
-		string("all", ["-a", "--all"], { desc: "List all (offline) actions", descArg: 'all' }),
-		string("filter", ["-f", "--filter"], { desc: "Filter actions (e.g.: 'users.*').", descArg: 'filter' }),
-        string("skipinternal", ["-i", "--skipinternal"], { desc: "Skip internal actions.", descArg: 'skipinternal' }),
-        string("local", ["-l", "--local"], { desc: "Only local actions.", descArg: 'local' }),
+        flag("all", ["-a", "--all"], { desc: "List all (offline) actions", descArg: 'all' }),
+        flag("details", ["-d", "--details"], { desc: "Print endpoints.", descArg: 'details' }),
+		string("filter", ["-f", "--filter"], { desc: "Filter actions (e.g.: 'users.*').", descArg: 'match' }),
+        flag("skipinternal", ["-i", "--skipinternal"], { desc: "Skip internal actions.", descArg: 'skipinternal' }),
+        flag("local", ["-l", "--local"], { desc: "Only local actions.", descArg: 'local' }),
 ]);
 
 function call(broker, cmd, args, errs) {

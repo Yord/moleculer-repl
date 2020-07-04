@@ -1,8 +1,10 @@
-const { subcommand } = require("shargs-opts");
+const { subcommand, flag } = require("shargs-opts");
 const { wrapper } = require('../../usage/help')
 const util 	= require("util");
 
-const subCommandOpt = subcommand([]);
+const subCommandOpt = subcommand([
+	flag("help", ["--help"], { desc: "Output usage information" }),
+]);
 
 function handler(broker, cmd, args, errs) {
 	console.log(util.inspect(process.env, { showHidden: false, depth: 4, colors: true }));

@@ -1,7 +1,9 @@
-const { subcommand } = require("shargs-opts");
+const { subcommand, flag } = require("shargs-opts");
 const { wrapper } = require('../../usage/help')
 
-const subCommandOpt = subcommand([]);
+const subCommandOpt = subcommand([
+	flag("help", ["--help"], { desc: "Output usage information" }),
+]);
 
 function handler(broker, cmd, args, errs) {
 	process.stdout.write("\x1Bc");
