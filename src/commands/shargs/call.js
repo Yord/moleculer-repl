@@ -112,45 +112,46 @@ async function handler(broker, cmd, args, errs) {
 	const nodeID = args.nodeID;
 	meta.$repl = true;
 	console.log(kleur.yellow().bold(`>> Call '${args.actionName}'${nodeID ? " on " + nodeID : ""}`), isStream(payload) ? "with <Stream>." : "with params:", isStream(payload) ? "" : payload);
-	broker.call(args.actionName, payload, { meta, nodeID })
-		.then(res => {
-			const diff = process.hrtime(startTime);
-			const duration = (diff[0] + diff[1] / 1e9) * 1000;
-			console.log(kleur.cyan().bold(">> Execution time:" + humanize(duration)));
+	
+	try {
+		const res = await broker.call(args.actionName, payload, { meta, nodeID })
 
-			console.log(kleur.yellow().bold(">> Response:"));
-			if (isStream(res)) {
-				console.log("<Stream>");
+		const diff = process.hrtime(startTime);
+		const duration = (diff[0] + diff[1] / 1e9) * 1000;
+		console.log(kleur.cyan().bold(">> Execution time:" + humanize(duration)));
+
+		console.log(kleur.yellow().bold(">> Response:"));
+		if (isStream(res)) {
+			console.log("<Stream>");
+		} else {
+			console.log(util.inspect(res, { showHidden: false, depth: 4, colors: true }));
+		}
+
+		// Save response to file
+		if (args.options.save && res != null)  {
+			let fName;
+			if (_.isString(args.options.save)) {
+				fName = path.resolve(args.options.save);
 			} else {
-				console.log(util.inspect(res, { showHidden: false, depth: 4, colors: true }));
+				fName = path.join(".", `${args.actionName}.response`);
+				if (isStream(res))
+					fName += ".stream";
+				else
+					fName += _.isObject(res) ? ".json" : ".txt";
 			}
 
-			// Save response to file
-			if (args.options.save && res != null)  {
-				let fName;
-				if (_.isString(args.options.save)) {
-					fName = path.resolve(args.options.save);
-				} else {
-					fName = path.join(".", `${args.actionName}.response`);
-					if (isStream(res))
-						fName += ".stream";
-					else
-						fName += _.isObject(res) ? ".json" : ".txt";
-				}
-
-				if (isStream(res)) {
-					res.pipe(fs.createWriteStream(fName));
-				} else {
-					fs.writeFileSync(fName, _.isObject(res) ? JSON.stringify(res, null, 4) : res, "utf8");
-				}
-				console.log(kleur.magenta().bold(`>> Response has been saved to '${fName}' file.`));
+			if (isStream(res)) {
+				res.pipe(fs.createWriteStream(fName));
+			} else {
+				fs.writeFileSync(fName, _.isObject(res) ? JSON.stringify(res, null, 4) : res, "utf8");
 			}
-		})
-		.catch(err => {
-			console.error(kleur.red().bold(">> ERROR:", err.message));
-			console.error(kleur.red().bold(err.stack));
-			console.error("Data: ", util.inspect(err.data, { showHidden: false, depth: 4, colors: true }));
-		})
+			console.log(kleur.magenta().bold(`>> Response has been saved to '${fName}' file.`));
+		}
+	} catch (err) {
+		console.error(kleur.red().bold(">> ERROR:", err.message));
+		console.error(kleur.red().bold(err.stack));
+		console.error("Data: ", util.inspect(err.data, { showHidden: false, depth: 4, colors: true }));
+	}
 }
 
 module.exports = function (commands, broker) {

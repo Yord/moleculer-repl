@@ -1,6 +1,7 @@
 const { subcommand, stringPos, flag } = require("shargs-opts");
 const { wrapper } = require('../../usage/help')
 const kleur 			= require("kleur");
+const util = require("util")
 
 /**
  * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
@@ -19,12 +20,16 @@ const subCommandOpt = subcommand([
  * @param {Object} args Parsed arguments
  * @param {Array} errs Array of errors
  */
-function handler(broker, cmd, args, errs) {
+async function handler(broker, cmd, args, errs) {
     if (broker.cacher) {
-        broker.cacher.clean(args.pattern).then(() => {
-            console.log(kleur.yellow().bold(args.pattern ? "Cacher cleared entries by pattern." : "Cacher cleared all entries."));
-            done();
-        });
+		try {
+			await broker.cacher.clean(args.pattern)
+			console.log(kleur.yellow().bold(args.pattern ? "Cacher cleared entries by pattern." : "Cacher cleared all entries."));	
+		} catch (err) {
+			console.error(kleur.red().bold(">> ERROR:", err.message));
+			console.error(kleur.red().bold(err.stack));
+			console.error("Data: ", util.inspect(err.data, { showHidden: false, depth: 4, colors: true }));
+		}
         return;
     }
 
