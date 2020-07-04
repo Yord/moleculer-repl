@@ -9,6 +9,11 @@ const isStream			= require("is-stream");
 const { flag, subcommand, stringPos, string, variadicPos } = require("shargs-opts");
 const { wrapper } = require("../../usage/help")
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 const subCommandOpt = broker => subcommand([
 		stringPos('actionName', {
 			desc: "Action name (e.g., greeter.hello)",
@@ -24,6 +29,13 @@ const subCommandOpt = broker => subcommand([
 		string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 async function handler(broker, cmd, args, errs) {
 	let payload;
 	let meta = {};

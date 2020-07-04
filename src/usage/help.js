@@ -40,7 +40,7 @@ const commandUsage = (cmd) => help(cmd)(style)
  * @param {ServiceBroker} broker Moleculer's Service Broker
  * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array[any]} errs Error
+ * @param {Array} errs Array of errors
  * @param {Function} handler Command handler
  * @returns {Function}
  */

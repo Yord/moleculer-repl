@@ -7,6 +7,12 @@ const ora 				= require("ora");
 const _ 				= require("lodash");
 const { formatNumber } 	= require("../../utils");
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
+
 function createSpinner(text) {
 	return ora({
 		text,
@@ -39,6 +45,13 @@ const subCommandOpt = broker => subcommand([
 		string("nodeID", ["--save"], { desc: "NodeID (direct call).", descArg: 'nodeID' }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function handler(broker, cmd, args, errs) {
     let payload;
     const iterate = args.options.num != null ? Number(args.options.num) : null;

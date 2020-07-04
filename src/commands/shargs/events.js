@@ -2,10 +2,15 @@ const kleur 							= require("kleur");
 const _ 								= require("lodash");
 const { table, getBorderCharacters } 	= require("table");
 
-const { match, CIRCUIT_CLOSE, CIRCUIT_HALF_OPEN, CIRCUIT_OPEN } = require("../../utils");
+const { match } = require("../../utils");
 
 const { flag, subcommand, string } = require("shargs-opts");
 const { wrapper } = require("../../usage/help")
+
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
 
 const subCommandOpt = subcommand([
 	    flag("help", ["--help"], { desc: "Output usage information" }),
@@ -16,6 +21,13 @@ const subCommandOpt = subcommand([
         flag("local", ["-l", "--local"], { desc: "Only local event listeners." }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function handler(broker, cmd, args, errs) {
     const events = broker.registry.getEventList({ onlyLocal: args.options.local, onlyAvailable: !args.options.all, skipInternal: args.options.skipinternal, withEndpoints: args.options.details });
     const data = [

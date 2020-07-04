@@ -4,6 +4,11 @@ const kleur = require("kleur");
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 const loadCommandOpt = subcommand([
 	stringPos("servicePath", { desc: "Path to the service file.", descArg: "servicePath", required: true}),
 	flag("help", ["--help"], { desc: "Output usage information" }),
@@ -15,6 +20,13 @@ const loadFolderCommandOpt = subcommand([
 	flag("help", ["--help"], { desc: "Output usage information" }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function loadHandler(broker, cmd, args, errs) {
 	console.log(args)
 	let filePath = path.resolve(args.servicePath);
@@ -27,6 +39,13 @@ function loadHandler(broker, cmd, args, errs) {
 	}
 }
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function loadFolderHandler (broker, cmd, args, errs) {
 	let filePath = path.resolve(args.serviceFolder);
 	if (fs.existsSync(filePath)) {

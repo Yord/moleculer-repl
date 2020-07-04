@@ -10,6 +10,11 @@ const subCommandOpt = subcommand([
 		string("filter", ["-f", "--filter"], { desc: "Filter metrics (e.g.: 'moleculer.**').", descArg: 'match' }),
 ]);
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 function labelsToStr(labels) {
 	const keys = Object.keys(labels);
 	if (keys.length == 0)
@@ -18,6 +23,13 @@ function labelsToStr(labels) {
 	return kleur.gray("{") + keys.map(key => `${kleur.gray(key)}: ${kleur.magenta("" + labels[key])}`).join(", ") + kleur.gray("}");
 }
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function handler(broker, cmd, args, errs) {
     if (!broker.isMetricsEnabled()) {
         console.error(kleur.red().bold("Metrics feature is disabled."));

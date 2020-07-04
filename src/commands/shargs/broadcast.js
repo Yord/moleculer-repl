@@ -6,6 +6,11 @@ const { convertArgs } 	= require("../../utils");
 const { flag, subcommand, stringPos, variadicPos } = require("shargs-opts");
 const { wrapper } = require('../../usage/help')
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 const subCommandOpt = subcommand([
     stringPos('eventName', {
         desc: "Event name",
@@ -15,6 +20,13 @@ const subCommandOpt = subcommand([
     flag("help", ["--help"], { desc: "Output usage information." }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function broadcastHandler(broker, cmd, args, errs) {
     let payload = {};
     let meta = {
@@ -37,6 +49,13 @@ function broadcastHandler(broker, cmd, args, errs) {
     broker.broadcast(args.eventName, payload, { meta });
 }
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function broadcastLocalHandler(broker, cmd, args, errs) {
     let payload = {};
     let meta = {

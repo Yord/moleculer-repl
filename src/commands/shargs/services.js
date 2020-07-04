@@ -6,6 +6,11 @@ const { match } 		= require("../../utils");
 const { flag, subcommand, string } = require("shargs-opts");
 const { wrapper } = require("../../usage/help")
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 const subCommandOpt = subcommand([
 	    flag("help", ["--help"], { desc: "Output usage information" }),
         flag("all", ["-a", "--all"], { desc: "list all (offline) services" }),
@@ -15,6 +20,13 @@ const subCommandOpt = subcommand([
         flag("local", ["-l", "--local"], { desc: "Only local services." }),
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 function handler(broker, cmd, args, errs) {
     const services = broker.registry.getServiceList({ onlyLocal: args.options.local, onlyAvailable: !args.options.all, skipInternal: args.options.skipinternal, withActions: true, withEvents: true });
 

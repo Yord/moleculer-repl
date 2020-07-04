@@ -3,6 +3,11 @@ const { wrapper } = require("../../usage/help")
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
 
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
+
 const subCommandOpt = broker => subcommand([
     stringPos('serviceName', {
         desc: "Name of the service to destroy",
@@ -19,6 +24,13 @@ const subCommandOpt = broker => subcommand([
     flag("help", ["--help"], { desc: "Output usage information" })
 ]);
 
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
 async function handler(broker, cmd, args, errs) {
     const serviceName = args.serviceName;
     const version = args.version;
