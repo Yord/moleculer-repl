@@ -24,7 +24,7 @@ const subCommandOpt = broker => subcommand([
 		string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
 ]);
 
-async function call(broker, cmd, args, errs) {
+async function handler(broker, cmd, args, errs) {
 	console.log(args)
 }
 
@@ -37,7 +37,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, call) // Handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
 
 	return { ...cmd, action }
 };

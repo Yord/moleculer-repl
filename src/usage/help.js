@@ -45,7 +45,9 @@ const commandUsage = (cmd) => help(cmd)(style)
  * @returns {Function}
  */
 function wrapper(broker, cmd, args, errs, handler) {
-  // console.log(errs)
+  // Show command usage details
+	if (args.options.help)
+    return console.log(`\n${commandUsage(cmd)}`)
 
   // Check for errs and show the command usage
 	if (errs.length > 0) {
@@ -53,10 +55,6 @@ function wrapper(broker, cmd, args, errs, handler) {
 		console.log(`\n  ${errStr}\n\n${commandUsage(cmd)}`)
 		return
 	}
-
-	// Show command usage details
-	if (args.options.help)
-		return console.log(`\n${commandUsage(cmd)}`)
 
   return handler(broker, cmd, args, errs)
 }

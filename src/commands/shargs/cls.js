@@ -12,7 +12,7 @@ module.exports = function (commands, broker) {
 		"cls", // Name
 		["cls"], // Alias
 		{
-			desc: "Clear console.", // Description
+			desc: "Clear the terminal screen.", // Description
 		}
 	);
 
