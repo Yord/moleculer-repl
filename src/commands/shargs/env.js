@@ -22,6 +22,10 @@ function handler(broker, cmd, args, errs) {
 	console.log(util.inspect(process.env, { showHidden: false, depth: 4, colors: true }));
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(
 		"env", // Name

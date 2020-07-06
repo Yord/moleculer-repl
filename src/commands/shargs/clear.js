@@ -36,6 +36,10 @@ async function handler(broker, cmd, args, errs) {
     console.log(kleur.red().bold("No cacher."));
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(
 		"clear", // Name

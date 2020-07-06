@@ -144,6 +144,10 @@ function handler(broker, cmd, args, errs) {
     console.log("");
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(
 		"info", // Name

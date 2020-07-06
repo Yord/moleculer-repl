@@ -2,6 +2,7 @@ const kleur 			= require("kleur");
 const { convertArgs } 	= require("../../utils");
 const { flag, subcommand, stringPos, string, variadicPos } = require("shargs-opts");
 const { wrapper } = require("../../usage/help")
+const _ = require('lodash')
 
 /**
  * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
@@ -12,7 +13,7 @@ const subCommandOpt = broker => subcommand([
 		stringPos('eventName', {
 			desc: "Event name",
 			required: true,
-			// only: _.uniq(_.compact(broker.registry.getEventList({}).map(item => item && item.event ? item.event.name: null)))
+			only: _.uniq(_.compact(broker.registry.getEventList({}).map(item => item && item.event ? item.event.name: null)))
 		}),
         variadicPos('customOptions', { bestGuess: true }),
         flag("help", ["--help"], { desc: "Output usage information" }),
@@ -48,6 +49,10 @@ function handler(broker, cmd, args, errs) {
     broker.emit(args.eventName, payload, { meta });
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(broker)(
 		"emit", // Name

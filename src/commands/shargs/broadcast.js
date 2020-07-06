@@ -1,6 +1,7 @@
 "use strict";
 
 const kleur 			= require("kleur");
+const _ = require('lodash')
 const { convertArgs } 	= require("../../utils");
 
 const { flag, subcommand, stringPos, variadicPos } = require("shargs-opts");
@@ -11,10 +12,11 @@ const { wrapper } = require('../../usage/help')
  * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
  */
 
-const subCommandOpt = subcommand([
+const subCommandOpt = broker => subcommand([
     stringPos('eventName', {
         desc: "Event name",
-        required: true
+        required: true,
+        only: _.uniq(_.compact(broker.registry.getEventList({}).map(item => item && item.event ? item.event.name: null)))
     }),
     variadicPos('customOptions', { bestGuess: true }),
     flag("help", ["--help"], { desc: "Output usage information." }),
@@ -78,8 +80,12 @@ function broadcastLocalHandler(broker, cmd, args, errs) {
     broker.broadcastLocal(args.eventName, payload, { meta });
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
-	const broadcastCMD = subCommandOpt(
+	const broadcastCMD = subCommandOpt(broker)(
 		"broadcast", // Name
 		["broadcast"], // Alias
 		{
@@ -89,7 +95,7 @@ module.exports = function (commands, broker) {
 	// Register the handler
 	const broadcastAction = (args, errs) => wrapper(broker, broadcastCMD, args, errs, broadcastHandler)
     
-    const broadcastLocalCMD = subCommandOpt(
+    const broadcastLocalCMD = subCommandOpt(broker)(
 		"broadcastLocal", // Name
 		["broadcastLocal"], // Alias
 		{

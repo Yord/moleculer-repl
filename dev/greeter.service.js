@@ -21,5 +21,13 @@ module.exports = {
 			}
 		}
 	},
-	events: {},
+	events: {
+		"hello.event" (ctx){
+			console.log(ctx.params)
+		},
+
+		"*" (ctx){
+			console.log(ctx.params)
+		}
+	},
 }

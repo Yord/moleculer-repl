@@ -154,6 +154,10 @@ async function handler(broker, cmd, args, errs) {
 	}
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(broker)(
 		"call", // Name

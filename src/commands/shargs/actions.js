@@ -116,6 +116,10 @@ function handler(broker, cmd, args, errs) {
     console.log(table(data, tableConf));
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(
 		"actions", // Name

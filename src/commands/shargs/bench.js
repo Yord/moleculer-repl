@@ -169,6 +169,10 @@ function handler(broker, cmd, args, errs) {
     doRequest();
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	const cmd = subCommandOpt(broker)(
 		"bench", // Name

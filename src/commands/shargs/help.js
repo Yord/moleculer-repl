@@ -38,6 +38,10 @@ function handler(commands, broker, command) {
 	console.log(help)
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	return variadic("help", ["help"], {
 		action: (args) => handler(commands, broker, args),
