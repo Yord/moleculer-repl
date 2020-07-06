@@ -8,7 +8,7 @@ const util 	= require("util");
  */
 
 const subCommandOpt = subcommand([
-	flag("help", ["--help"], { desc: "Output usage information" }),
+	// flag("help", ["--help"], { desc: "Output usage information" }),
 ]);
 
 /**

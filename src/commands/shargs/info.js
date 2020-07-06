@@ -12,7 +12,7 @@ const os 				= require("os");
  */
 
 const subCommandOpt = subcommand([
-    flag("help", ["--help"], { desc: "Output usage information" }),
+    // flag("help", ["--help"], { desc: "Output usage information" }),
 ]);
 
 /**

@@ -7,7 +7,7 @@ const { wrapper } = require('../../usage/help')
  */
 
 const subCommandOpt = subcommand([
-	flag("help", ["--help"], { desc: "Output usage information" }),
+	// flag("help", ["--help"], { desc: "Output usage information" }),
 ]);
 
 
