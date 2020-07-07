@@ -42,14 +42,7 @@ function fromArgs (rawCommandNewline) {
     .reduce((obj, [key, val]) => ({...obj, [key]: val}), {})
   )
 
-  return ({errs, args: [opts, cmd, ...rest]}) => {
-    const res = fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
-
-    const {errs: errs2, args: args2} = removeRest(res)
-
-    return {
-      errs: errs2,
-      args: {...args2, rawCommand}
-    }
-  }
+  return ({errs, args: [opts, cmd, ...rest]}) => removeRest(
+    fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
+  )
 }
