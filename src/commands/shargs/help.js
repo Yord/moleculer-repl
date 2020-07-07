@@ -14,7 +14,7 @@ const {
 	usage,
 } = require("shargs-usage");
 
-function call(commands, broker, command) {
+function handler(commands, broker, command) {
 	const subDocs = usage([synopsis, space, optsDef, space, desc]);
 
 	const style = {
@@ -38,9 +38,13 @@ function call(commands, broker, command) {
 	console.log(help)
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
 	return variadic("help", ["help"], {
-		action: (args) => call(commands, broker, args),
+		action: (args) => handler(commands, broker, args),
 		desc: "Print usage documentation.",
 	});
 };

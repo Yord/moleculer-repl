@@ -1,14 +1,28 @@
-const { subcommand, stringPos } = require("shargs-opts");
+const { subcommand, flag } = require("shargs-opts");
+const { wrapper } = require('../../usage/help')
 const kleur 			= require("kleur");
 const _ 				= require("lodash");
-const util 				= require("util");
 const clui 				= require("clui");
 const pretty 			= require("pretty-bytes");
 const os 				= require("os");
 
-const subCommandOpt = subcommand([]);
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
 
-function call(broker, args) {
+const subCommandOpt = subcommand([
+    // flag("help", ["--help"], { desc: "Output usage information" }),
+]);
+
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
+function handler(broker, cmd, args, errs) {
 	const printHeader = (name) => {
         const title = "  " + name + "  ";
         const lines = "=".repeat(title.length);
@@ -130,13 +144,21 @@ function call(broker, args) {
     console.log("");
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
-	return subCommandOpt(
+	const cmd = subCommandOpt(
 		"info", // Name
 		["info"], // Alias
 		{
-			action: (args) => call(broker, args), // Handler
 			desc: "Information about broker.", // Description
 		}
 	);
+
+	// Register the handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler);
+
+	return { ...cmd, action };
 };

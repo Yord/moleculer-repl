@@ -1,19 +1,42 @@
-const { subcommand, stringPos } = require("shargs-opts");
+const { subcommand, flag } = require("shargs-opts");
+const { wrapper } = require('../../usage/help')
 
-const subCommandOpt = subcommand([]);
+/**
+ * @typedef {import('moleculer').ServiceBroker} ServiceBroker Moleculer's Service Broker
+ * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
+ */
 
-async function call(broker, args) {
+const subCommandOpt = subcommand([
+	// flag("help", ["--help"], { desc: "Output usage information" }),
+]);
+
+/**
+ * Command logic
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ * @param {Opt} cmd Sharg's sub command
+ * @param {Object} args Parsed arguments
+ * @param {Array} errs Array of errors
+ */
+async function handler(broker, cmd, args, errs) {
 	await broker.stop()
     process.exit(0);
 }
 
+/**
+ * @param {Opt} commands Sharg's command opt
+ * @param {ServiceBroker} broker Moleculer's Service Broker
+ */
 module.exports = function (commands, broker) {
-	return subCommandOpt(
+	const cmd = subCommandOpt(
 		"quit", // Name
 		["quit", "q", "exit"], // Alias
 		{
-			action: (args) => call(broker, args), // Handler
-			desc: "Exit application.", // Description
+			desc: "Exit the application.", // Description
 		}
 	);
+	
+	// Register the handler
+	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler)
+	
+	return { ...cmd, action }
 };
