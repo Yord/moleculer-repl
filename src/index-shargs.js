@@ -40,7 +40,20 @@ function REPL(broker, opts) {
 	commands.opts = subCommands
 
 	const defaultAction = (args, errs) => {
-		console.log('Your command was not found!')
+		const didYouMean = errs.find(err => err.code === 'DidYouMean')
+		
+		const suggestions = didYouMean.info.options.slice(0, 4)
+
+		const alternatives = []
+		for (const suggestion of suggestions) {
+			const args = suggestion.map(Object.keys)
+			for (const arg of args) {
+				alternatives.push(arg)
+			}
+		}
+
+		console.log('Your command was not found! Did you mean:')
+		console.log(alternatives.join(', '))
 	}
 
 	repl(lexer, parser, commands, {only: true, defaultAction})
