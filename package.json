@@ -1,6 +1,6 @@
 {
   "name": "moleculer-repl",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "REPL module for Moleculer",
   "main": "index.js",
   "scripts": {
@@ -59,7 +59,7 @@
     "shargs": "^0.24.7",
     "shargs-opts": "^0.5.0",
     "shargs-parser": "^0.6.1",
-    "shargs-repl": "0.6.0",
+    "shargs-repl": "^0.6.2",
     "shargs-usage": "^0.6.0",
     "table": "^5.4.6",
     "tiny-human-time": "^1.2.0"

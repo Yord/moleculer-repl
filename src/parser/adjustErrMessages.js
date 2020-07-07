@@ -4,14 +4,27 @@ const adjustErrMessages = ({ errs, opts }) => {
   for (let i = 0; i < errs.length; i++) {
     const err = errs[i]
 
-    if (err.code === 'RequiredOptionMissing') {
-      const err2 = {
-        ...err,
-        msg: 'Missing required argument.'
+    switch (err.code) {
+      case 'RequiredOptionMissing': {
+        const err2 = {
+          ...err,
+          msg: 'Missing required argument.'
+        }
+        errs2.push(err2)
+        break
       }
-      errs2.push(err2)
-    } else {
-      errs2.push(err)
+      case 'ValueRestrictionsViolated': {
+        const {key, values, only} = err.info
+        const err2 = {
+          ...err,
+          msg: `The '${key}' field cannot be '${values.join(' ')}'. Choose one of the following:\n  ${only.join(', ')}`
+        }
+        errs2.push(err2)
+        break
+      }
+      default: {
+        errs2.push(err)
+      }
     }
   }
 

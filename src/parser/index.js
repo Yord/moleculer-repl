@@ -1,5 +1,5 @@
 const {fromArgs: fromArgsDefault, lexerSync, parserSync} = require('shargs')
-const {arrayOnRepeat, bestGuessCast, flagsAsBools, restrictToOnly, requireOpts} = require('shargs-parser')
+const {arrayOnRepeat, bestGuessCast, equalsSignAsSpace, flagsAsBools, restrictToOnly, requireOpts, suggestOpts} = require('shargs-parser')
 const {adjustErrMessages} = require('./adjustErrMessages')
 const {bestGuess} = require('./bestGuess')
 const {groupOptions} = require('./groupOptions')
@@ -14,7 +14,8 @@ const lexer = lexerSync({
 
 const parser = cmd => rawCommand => parserSync({
   toArgv,
-  opts: [requireOpts, restrictToOnly, bestGuess, groupOptions, arrayOnRepeat, adjustErrMessages],
+  argv: [equalsSignAsSpace],
+  opts: [requireOpts, restrictToOnly, bestGuess, suggestOpts, groupOptions, arrayOnRepeat, adjustErrMessages],
   args: [flagsAsBools, bestGuessCast, nestKeys],
   fromArgs: fromArgs(rawCommand)
 })(cmd)(rawCommand)
@@ -41,14 +42,7 @@ function fromArgs (rawCommandNewline) {
     .reduce((obj, [key, val]) => ({...obj, [key]: val}), {})
   )
 
-  return ({errs, args: [opts, cmd, ...rest]}) => {
-    const res = fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
-
-    const {errs: errs2, args: args2} = removeRest(res)
-
-    return {
-      errs: errs2,
-      args: {...args2, rawCommand}
-    }
-  }
+  return ({errs, args: [opts, cmd, ...rest]}) => removeRest(
+    fromArgsDefault({errs, args: [opts, addRawCommand(cmd), ...rest]})
+  )
 }
