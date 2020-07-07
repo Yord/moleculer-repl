@@ -39,8 +39,8 @@ function REPL(broker, opts) {
 	// Set the commands
 	commands.opts = subCommands
 
-	const defaultAction = cmd => {
-		console.log(`No command named ${cmd} found!`)
+	const defaultAction = (args, errs) => {
+		console.log('Your command was not found!')
 	}
 
 	repl(lexer, parser, commands, {only: true, defaultAction})
