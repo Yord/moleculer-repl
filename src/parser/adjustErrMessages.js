@@ -1,15 +1,4 @@
-const blacklist = ['ValueRestrictionsViolated']
-
-const adjustErrMessages = compose(
-  rephraseErrMessages,
-  filterErrMessages(blacklist)
-)
-
-module.exports = {
-  adjustErrMessages
-}
-
-function rephraseErrMessages ({ errs, opts }) {
+const adjustErrMessages = ({ errs, opts }) => {
   const errs2 = []
 
   for (let i = 0; i < errs.length; i++) {
@@ -33,13 +22,6 @@ function rephraseErrMessages ({ errs, opts }) {
   return { errs: errs2, opts }
 }
 
-function filterErrMessages (blacklist) {
-  return ({ errs, opts }) => ({
-    errs: errs.filter(({code}) => !blacklist.includes(code)),
-    opts
-  })
-}
-
-function compose (f, g) {
-  return a => f(g(a))
+module.exports = {
+  adjustErrMessages
 }
