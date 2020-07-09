@@ -1,4 +1,10 @@
-const adjustErrMessages = ({ errs, opts }) => {
+const adjustErrMessages = obj => rephraseErrMessages(obj)
+
+module.exports = {
+  adjustErrMessages
+}
+
+function rephraseErrMessages ({ errs, opts }) {
   const errs2 = []
 
   for (let i = 0; i < errs.length; i++) {
@@ -29,8 +35,4 @@ const adjustErrMessages = ({ errs, opts }) => {
   }
 
   return { errs: errs2, opts }
-}
-
-module.exports = {
-  adjustErrMessages
 }
