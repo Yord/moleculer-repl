@@ -1,5 +1,5 @@
 const {fromArgs: fromArgsDefault, lexerSync, parserSync} = require('shargs')
-const {arrayOnRepeat, bestGuessCast, equalsSignAsSpace, flagsAsBools, restrictToOnly, requireOpts, suggestOpts} = require('shargs-parser')
+const {arrayOnRepeat, bestGuessCast, equalsSignAsSpace, flagsAsBools, requireOpts, suggestOpts} = require('shargs-parser')
 const {adjustErrMessages} = require('./adjustErrMessages')
 const {bestGuess} = require('./bestGuess')
 const {groupOptions} = require('./groupOptions')
@@ -8,14 +8,13 @@ const {removeRest} = require('./removeRest')
 const {strToArgv} = require('./strToArgv')
 
 const lexer = lexerSync({
-  toArgv,
-  opts: [restrictToOnly]
+  toArgv
 })
 
 const parser = cmd => rawCommand => parserSync({
   toArgv,
   argv: [equalsSignAsSpace],
-  opts: [requireOpts, restrictToOnly, bestGuess, suggestOpts, groupOptions, arrayOnRepeat, adjustErrMessages],
+  opts: [requireOpts, bestGuess, suggestOpts, groupOptions, arrayOnRepeat, adjustErrMessages],
   args: [flagsAsBools, bestGuessCast, nestKeys],
   fromArgs: fromArgs(rawCommand)
 })(cmd)(rawCommand)

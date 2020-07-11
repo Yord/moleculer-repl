@@ -13,15 +13,6 @@ const adjustErrMessages = ({ errs, opts }) => {
         errs2.push(err2)
         break
       }
-      case 'ValueRestrictionsViolated': {
-        const {key, values, only} = err.info
-        const err2 = {
-          ...err,
-          msg: `The '${key}' field cannot be '${values.join(' ')}'. Choose one of the following:\n  ${only.join(', ')}`
-        }
-        errs2.push(err2)
-        break
-      }
       default: {
         errs2.push(err)
       }
