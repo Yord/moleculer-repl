@@ -26,9 +26,31 @@ const broker = new ServiceBroker({
 		}
 	},
 
-	// replDelimiter: 'abcd',
-	// replCommands: null,
-
+	replDelimiter: 'abcd',
+	replCommands: [
+        {
+            command: "hello <name>",
+            description: "Call the greeter.hello service with name",
+            alias: "hi",
+            options: [
+                { option: "-u, --uppercase", description: "Uppercase the name" }
+            ],
+            types: {
+                string: ["name"],
+                boolean: ["u", "uppercase"]
+            },
+            //parse(command, args) {},
+            //validate(args) {},
+            //help(args) {},
+            allowUnknownOptions: true,
+            action(broker, args/*, helpers*/) {
+                const name = args.options.uppercase ? args.name.toUpperCase() : args.name;
+                return broker.call("greeter.hello", { name }).then(console.log);
+            }
+        }
+	],
+	
+	/*
 	repl: {
 		type: "shargs", // vorpal
 		options: {
@@ -106,7 +128,7 @@ const broker = new ServiceBroker({
 				}
 			]
 		}
-	}
+	}*/
 })
 
 broker.createService(GreeterSchema)

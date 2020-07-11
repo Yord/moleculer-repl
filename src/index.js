@@ -1,13 +1,14 @@
 module.exports = function replSelector(broker, replConfigs) {
     // For legacy purposes
-    if (!replConfigs) {
-        replConfigs = {
+    if (!replConfigs.type) {
+        const legacy = {
             type: 'vorpal',
             options: {
-                delimiter: "mol $",
-                customCommands: null
+                delimiter: replConfigs.delimiter,
+                customCommands: replConfigs.customCommands
             }
         }
+        replConfigs = legacy
     }
 
     if (replConfigs.type == 'vorpal') {
