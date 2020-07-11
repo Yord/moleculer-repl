@@ -4,7 +4,7 @@ module.exports = function replSelector(broker, replConfigs) {
         replConfigs = {
             type: 'vorpal',
             options: {
-                delimiter: 'mol',
+                delimiter: "mol $",
                 customCommands: null
             }
         }
