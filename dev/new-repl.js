@@ -2,6 +2,8 @@ const { ServiceBroker } = require('moleculer')
 const GreeterSchema = require('./greeter.service')
 
 const broker = new ServiceBroker({
+	nodeID: 'repl',
+
 	replLocation: '../../../index', // Shargs
 	// replLocation: '../../../index-vorpal',
     logLevel: 'info',
