@@ -43,6 +43,7 @@ const { ServiceBroker } = require("moleculer");
 /* istanbul ignore next */
 function REPL(broker, opts) {
 	// Create commands instance
+	// Delimiter doesn't like white spaces
 	const commands = command(opts.delimiter.split(" ").join(""), [], { desc: undefined })
 	
 	// Load general commands
