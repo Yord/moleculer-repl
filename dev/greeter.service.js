@@ -23,10 +23,12 @@ module.exports = {
 	},
 	events: {
 		"hello.event" (ctx){
+			console.log('Caught an Event!!')
 			console.log(ctx.params)
 		},
 
 		"*" (ctx){
+			console.log('Caught an Event!!')
 			console.log(ctx.params)
 		}
 	},

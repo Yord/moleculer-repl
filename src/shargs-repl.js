@@ -32,8 +32,13 @@ const {lexer, parser} = require('./parser')
 /* istanbul ignore next */
 function REPL(broker, opts) {
 
+	opts = _.defaultsDeep(opts || {}, {
+		customCommands: null,
+		delimiter: "mol"
+	});
+
 	// Create commands instance
-	const commands = command('mol', [], { desc: undefined })
+	const commands = command(opts.delimiter, [], { desc: undefined })
 	// Load the commands
 	const subCommands = loadCommands(commands, broker)
 	// Set the commands
