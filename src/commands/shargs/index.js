@@ -11,6 +11,7 @@ const path = require("path");
  /**
   * @param {Opt} shargsCommand Shargs command
   * @param {ServiceBroker} broker Moleculer's Service Broker
+  * @returns {Array<Opt>}
   */
 module.exports = function(shargsCommand, broker) {
     const subCommands = []

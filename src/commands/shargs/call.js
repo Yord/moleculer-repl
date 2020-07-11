@@ -25,7 +25,7 @@ const callCommandOpt = broker => subcommand([
 		stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
 	    flag("help", ["--help"], { desc: "Output usage information" }),
 		string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
-		string("stream", ["--stream"], { desc: "Save response to file.", descArg: 'filename' }),
+		string("stream", ["--stream"], { desc: "Send a file as stream.", descArg: 'filename' }),
 		string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
 ]);
 
@@ -41,7 +41,7 @@ const dcallCommandOpt = broker => subcommand([
 	stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
 	flag("help", ["--help"], { desc: "Output usage information" }),
 	string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
-	string("stream", ["--stream"], { desc: "Save response to file.", descArg: 'filename' }),
+	string("stream", ["--stream"], { desc: "Send a file as stream.", descArg: 'filename' }),
 	string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
 ]);
 

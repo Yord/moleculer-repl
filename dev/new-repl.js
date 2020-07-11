@@ -27,34 +27,84 @@ const broker = new ServiceBroker({
 	},
 
 	// replDelimiter: 'abcd',
-	replCommands: null,
+	// replCommands: null,
 
 	repl: {
-		type: "vorpal", // vorpal
+		type: "shargs", // vorpal
 		options: {
 			delimiter: 'mol',
-			/*customCommands: [
+			customCommands: [
 				{
-					command: "hello <name>",
-					description: "Call the greeter.hello service with name",
-					alias: "hi",
+					name: 'greeter',
+					alias: ['greeter', 'gr'],
+					description: 'Calls greeter',
 					options: [
-						{ option: "-u, --uppercase", description: "Uppercase the name" }
+						{
+							type: 'variadicPos',
+							name: 'customOptions',
+							def: { 
+								bestGuess: true
+							}
+						},
+						{
+							type: 'stringPos',
+							name: 'jsonParams',
+							def: {
+								desc: `JSON Parameters (e.g. '{"a": 5}' )`,
+								descArg: 'jsonParams'
+							}
+						},
+						{
+							type: 'stringPos',
+							name: 'meta',
+							def: {
+								desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)",
+								descArg: 'meta'
+							}
+						},
+						{
+							type: 'flag',
+							name: 'help',
+							alias: ['--help'],
+							def: {
+								desc: "Output usage information"
+							}
+						},
+						{
+							type: 'string',
+							name: 'load',
+							alias: ['--load'],
+							def: {
+								desc: "Load params from file.",
+								descArg: 'filename'
+							}
+						},
+						{
+							type: 'string',
+							name: 'stream',
+							alias: ['--stream'],
+							def: {
+								desc: "Send a file as stream.",
+								descArg: 'filename'
+							}
+						},
+						{
+							type: 'string',
+							name: 'save',
+							alias: ['--save'],
+							def: {
+								desc: "Save response to file.",
+								descArg: 'filename'
+							}
+						},
 					],
-					types: {
-						string: ["name"],
-						boolean: ["u", "uppercase"]
-					},
-					//parse(command, args) {},
-					//validate(args) {},
-					//help(args) {},
-					allowUnknownOptions: true,
-					action(broker, args) {
-						const name = args.options.uppercase ? args.name.toUpperCase() : args.name;
-						return broker.call("greeter.welcome", { name }).then(console.log);
+					async action(broker, cmd, args, errs) {
+						console.log(args)
+						const res = await broker.call('greeter.hello')
+						console.log(res)
 					}
 				}
-			]*/
+			]
 		}
 	}
 })
