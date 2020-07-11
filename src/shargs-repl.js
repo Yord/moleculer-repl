@@ -43,7 +43,7 @@ const { ServiceBroker } = require("moleculer");
 /* istanbul ignore next */
 function REPL(broker, opts) {
 	// Create commands instance
-	const commands = command(opts.delimiter, [], { desc: undefined })
+	const commands = command(opts.delimiter.split(" ").join(""), [], { desc: undefined })
 	
 	// Load general commands
 	let subCommands = loadCommands(commands, broker)
