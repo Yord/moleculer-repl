@@ -100,8 +100,8 @@ const broker = new ServiceBroker({
 					],
 					async action(broker, cmd, args, errs) {
 						console.log(args)
-						const res = await broker.call('greeter.hello')
-						console.log(res)
+						// const res = await broker.call('greeter.welcome')
+						// console.log(res)
 					}
 				}
 			]

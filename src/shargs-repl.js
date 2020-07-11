@@ -59,7 +59,7 @@ function REPL(broker, opts) {
 		opts.customCommands.forEach(def => {
 			removeIfExists(def.name)
 
-			// subCommands.push(createCustomCommand(def, broker))
+			subCommands.push(createCustomCommand(def, broker))
 		})
 
 	}
@@ -81,6 +81,8 @@ function createCustomCommand(def, broker) {
 	const optsArray = def.options.map(opt => {
 		return shargsOpt[`${opt.type}`](
 			opt.name,
+			// Some commands accept alias while other accept the definition
+			opt.alias !== undefined ? opt.alias : opt.def,
 			opt.def
 		)
 	})
