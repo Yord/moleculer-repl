@@ -23,11 +23,9 @@ const subCommandOpt = subcommand([
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function handler(broker, cmd, args, errs) {
+function handler(broker, args) {
     const actions = broker.registry.getActionList({ onlyLocal: args.options.local, onlyAvailable: !args.options.all, skipInternal: args.options.skipinternal, withEndpoints: args.options.details });
 
     const data = [
@@ -129,7 +127,7 @@ module.exports = function (commands, broker) {
 		}
 	);
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
+	const action = (args, errs) => wrapper(broker, args, errs, cmd, handler) // Handler
 
 	return { ...cmd, action }
 };

@@ -42,9 +42,10 @@ const commandUsage = (cmd) => help(cmd)(style)
  * @param {Object} args Parsed arguments
  * @param {Array} errs Array of errors
  * @param {Function} handler Command handler
+ * @param {Object?} helpers Object containing helpers
  * @returns {Function}
  */
-function wrapper(broker, cmd, args, errs, handler) {
+function wrapper(broker, cmd, args, errs, handler, helpers) {
   // Show command usage details
 	if (args.options.help)
     return console.log(`\n${commandUsage(cmd)}`)
@@ -56,7 +57,7 @@ function wrapper(broker, cmd, args, errs, handler) {
 		return
 	}
 
-  return handler(broker, cmd, args, errs)
+  return handler(broker, args, helpers)
 }
 
 module.exports = {

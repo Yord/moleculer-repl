@@ -1,5 +1,6 @@
 const { ServiceBroker } = require('moleculer')
 const GreeterSchema = require('./greeter.service')
+const kleur = require('kleur')
 
 const broker = new ServiceBroker({
 	nodeID: 'repl',
@@ -26,6 +27,7 @@ const broker = new ServiceBroker({
 		}
 	},
 
+	/*
 	replDelimiter: 'abcd',
 	replCommands: [
         {
@@ -43,14 +45,14 @@ const broker = new ServiceBroker({
             //validate(args) {},
             //help(args) {},
             allowUnknownOptions: true,
-            action(broker, args/*, helpers*/) {
+            action(broker, args, helpers) {
                 const name = args.options.uppercase ? args.name.toUpperCase() : args.name;
                 return broker.call("greeter.hello", { name }).then(console.log);
             }
         }
-	],
+	],*/
 	
-	/*
+	
 	repl: {
 		type: "shargs", // vorpal
 		options: {
@@ -120,15 +122,14 @@ const broker = new ServiceBroker({
 							}
 						},
 					],
-					async action(broker, cmd, args, errs) {
-						console.log(args)
-						// const res = await broker.call('greeter.welcome')
-						// console.log(res)
+					async action(broker, args, helpers) {
+						const res = await broker.call('greeter.hello')
+						broker.logger.info(helpers.kleur.red().bold(res))
 					}
 				}
 			]
 		}
-	}*/
+	}
 })
 
 broker.createService(GreeterSchema)

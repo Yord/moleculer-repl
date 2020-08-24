@@ -25,11 +25,9 @@ const subCommandOpt = broker => subcommand([
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function broadcastHandler(broker, cmd, args, errs) {
+function broadcastHandler(broker, args) {
     let payload = {};
     let meta = {
         $repl: true
@@ -54,11 +52,9 @@ function broadcastHandler(broker, cmd, args, errs) {
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function broadcastLocalHandler(broker, cmd, args, errs) {
+function broadcastLocalHandler(broker, args) {
     let payload = {};
     let meta = {
         $repl: true

@@ -48,11 +48,9 @@ const dcallCommandOpt = broker => subcommand([
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-async function handler(broker, cmd, args, errs) {
+async function handler(broker, args) {
 	let payload;
 	let meta = {};
 	console.log(args);

@@ -26,7 +26,6 @@ const { command } = require('shargs-opts')
 const { repl, replSync }          = require('shargs-repl')
 const loadCommands      = require('./commands/shargs')
 const {lexer, parser} = require('./parser');
-const { remove } = require("lodash");
 
 const { wrapper } = require("./usage/help")
 
@@ -82,7 +81,7 @@ function createCustomCommand(def, broker) {
 	const optsArray = def.options.map(opt => {
 		return shargsOpt[`${opt.type}`](
 			opt.name,
-			// Some commands accept alias while other accept the definition
+			// Some commands accept alias while other accept the definition as 2nd param
 			opt.alias !== undefined ? opt.alias : opt.def,
 			opt.def
 		)
@@ -99,7 +98,10 @@ function createCustomCommand(def, broker) {
 	)
 	
 	// Create the handler
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, def.action)
+	const action = (args, errs) => {
+		const helpers = { table, kleur, ora, clui, getBorderCharacters }
+		return wrapper(broker, cmd, args, errs, def.action, helpers)
+	}
 
 	return {...cmd, action}
 }

@@ -48,11 +48,9 @@ const subCommandOpt = broker => subcommand([
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function handler(broker, cmd, args, errs) {
+function handler(broker, args) {
     let payload;
     const iterate = args.options.num != null ? Number(args.options.num) : null;
     let time = args.options.time != null ? Number(args.options.time) : null;
