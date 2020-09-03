@@ -67,7 +67,7 @@ function REPL(broker, opts) {
 	// Set the commands
 	commands.opts = subCommands
 
-	repl(lexer, parser, commands, {only: true, defaultAction})
+	repl(lexer, parser, commands, {only: true, defaultAction, prompt: opts.delimiter})
 }
 
 /**
