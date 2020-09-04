@@ -4,7 +4,7 @@ module.exports = function replSelector(broker, replConfigs) {
 	// For legacy purposes
 	replConfigs = defaultsDeep(replConfigs || {}, {
         type: 'vorpal',
-        delimiter: "mol $",
+        delimiter: "mol $ ",
         customCommands: null
     });
 
