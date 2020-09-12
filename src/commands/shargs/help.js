@@ -1,8 +1,4 @@
 const {
-	subcommand,
-	command,
-	string,
-	stringPos,
 	variadic,
 } = require("shargs-opts");
 const {

@@ -14,7 +14,7 @@ const { wrapper } = require("../../usage/help")
  * @typedef {import('shargs-opts').Opt} Opt Sharg's sub command
  */
 
-const subCommandOpt = broker => subcommand([
+const callCommandOpt = broker => subcommand([
 		stringPos('actionName', {
 			desc: "Action name (e.g., greeter.hello)",
 			required: true,
@@ -25,18 +25,32 @@ const subCommandOpt = broker => subcommand([
 		stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
 	    flag("help", ["--help"], { desc: "Output usage information" }),
 		string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
-		string("stream", ["--stream"], { desc: "Save response to file.", descArg: 'filename' }),
+		string("stream", ["--stream"], { desc: "Send a file as stream.", descArg: 'filename' }),
 		string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
+]);
+
+const dcallCommandOpt = broker => subcommand([
+	stringPos('nodeID', { desc: "ID of the node", descArg: 'nodeID', required: true} ),
+	stringPos('actionName', {
+		desc: "Action name (e.g., greeter.hello)",
+		required: true,
+		only: _.uniq(_.compact(broker.registry.getActionList({}).map(item => item && item.action ? item.action.name: null)))
+	}),
+	variadicPos('customOptions', { bestGuess: true }),
+	stringPos('jsonParams', { desc: `JSON Parameters (e.g. '{"a": 5}' )`, descArg: 'jsonParams'} ),
+	stringPos('meta', { desc: "Metadata to pass to the service action. Must start with '#' (e.g., --#auth 123)", descArg: 'meta'} ),
+	flag("help", ["--help"], { desc: "Output usage information" }),
+	string("load", ["--load"], { desc: "Load params from file.", descArg: 'filename' }),
+	string("stream", ["--stream"], { desc: "Send a file as stream.", descArg: 'filename' }),
+	string("save", ["--save"], { desc: "Save response to file.", descArg: 'filename' }),
 ]);
 
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-async function handler(broker, cmd, args, errs) {
+async function handler(broker, args) {
 	let payload;
 	let meta = {};
 	console.log(args);
@@ -159,15 +173,28 @@ async function handler(broker, cmd, args, errs) {
  * @param {ServiceBroker} broker Moleculer's Service Broker
  */
 module.exports = function (commands, broker) {
-	const cmd = subCommandOpt(broker)(
+	const callCMD = callCommandOpt(broker)(
 		"call", // Name
 		["call"], // Alias
 		{
 			desc: "Call an action.", // Description
 		}
 	);
+	// Create the handler for the call
+	const callAction = (args, errs) => wrapper(broker, callCMD, args, errs, handler) // Handler
+	
+	const dcallCMD = dcallCommandOpt(broker)(
+		"dcall", // Name
+		["dcall"], // Alias
+		{
+			desc: "Call an action located at a specific node.", // Description
+		}
+	);
+	// Create the handler for the dcall
+	const dcallAction = (args, errs) => wrapper(broker, dcallCMD, args, errs, handler) // Handler
 
-	const action = (args, errs) => wrapper(broker, cmd, args, errs, handler) // Handler
-
-	return { ...cmd, action }
+	return [
+		{ ...callCMD, action: callAction },
+		{ ...dcallCMD, action: dcallAction }
+	]
 };

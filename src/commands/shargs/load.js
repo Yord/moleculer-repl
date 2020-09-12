@@ -23,11 +23,9 @@ const loadFolderCommandOpt = subcommand([
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function loadHandler(broker, cmd, args, errs) {
+function loadHandler(broker, args) {
 	console.log(args)
 	let filePath = path.resolve(args.servicePath);
 	if (fs.existsSync(filePath)) {
@@ -42,11 +40,9 @@ function loadHandler(broker, cmd, args, errs) {
 /**
  * Command logic
  * @param {ServiceBroker} broker Moleculer's Service Broker
- * @param {Opt} cmd Sharg's sub command
  * @param {Object} args Parsed arguments
- * @param {Array} errs Array of errors
  */
-function loadFolderHandler (broker, cmd, args, errs) {
+function loadFolderHandler (broker, args) {
 	let filePath = path.resolve(args.serviceFolder);
 	if (fs.existsSync(filePath)) {
 		console.log(kleur.yellow(`>> Load services from '${filePath}'...`));

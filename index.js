@@ -6,4 +6,4 @@
 
 "use strict";
 
-module.exports = require("./src/index-shargs");
+module.exports = require("./src/index");
