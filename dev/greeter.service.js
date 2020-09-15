@@ -1,3 +1,5 @@
+const { ServiceBroker } = require("moleculer");
+
 module.exports = {
 	name: "greeter",
 	
@@ -11,6 +13,14 @@ module.exports = {
 			params: { name: "string" },
 			async handler(ctx) {
 				return `Welcome, ${ctx.params.name}`;
+			}
+		},
+
+		ids : {
+			handler () {
+				/** @type {ServiceBroker} */
+				let broker = this.broker
+				return broker.registry.nodes.list({ onlyAvailable: false, withServices : false }).map(node => node.id)
 			}
 		},
 

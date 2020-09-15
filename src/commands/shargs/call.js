@@ -30,7 +30,12 @@ const callCommandOpt = broker => subcommand([
 ]);
 
 const dcallCommandOpt = broker => subcommand([
-	stringPos('nodeID', { desc: "ID of the node", descArg: 'nodeID', required: true} ),
+	stringPos('nodeID', {
+		desc: "ID of the node",
+		descArg: 'nodeID',
+		required: true,
+		only: broker.registry.nodes.list({ onlyAvailable: false, withServices : false }).map(node => node.id)
+	} ),
 	stringPos('actionName', {
 		desc: "Action name (e.g., greeter.hello)",
 		required: true,
@@ -60,7 +65,7 @@ async function handler(broker, args) {
 		} catch(err) {
 			console.error(kleur.red().bold(">> ERROR:", err.message, args.jsonParams));
 			console.error(kleur.red().bold(err.stack));
-			done();
+			// done();
 			return;
 		}
 	} else {
